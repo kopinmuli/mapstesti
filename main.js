@@ -1,7 +1,6 @@
 var map = L.map('mapid').setView([65.449,25.566], 4);
 
-L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=J85hOuGW9yvZDxdg9l0Q', {
-    attribution:'<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     }).addTo(map);
 
    
