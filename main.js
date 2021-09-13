@@ -1,6 +1,7 @@
 var map = L.map('mapid').setView([65.449,25.566], 4);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution:"© OpenStreetMapin tekijät",
     }).addTo(map);
 
    
