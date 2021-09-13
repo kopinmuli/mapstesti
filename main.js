@@ -1,4 +1,17 @@
+const pyynto = new XMLHttpRequest();
+
+pyynto.onload = function() {
+    data = JSON.parse(this.responseText);
+console.log("vastaus saatu!");
+}
+pyynto.open("GET", ("https://nominatim.openstreetmap.org/search?city=")+kaupunki2+("&format=json"));
+pyynto.send();
+
+
+
 var map = L.map('mapid').setView([65.449,25.566], 4);
+var kaupunki1 = "mikkeli";
+var kaupunki2 = "helsinki";
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution:"© OpenStreetMapin tekijät",
@@ -17,3 +30,4 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         geocoder: L.Control.Geocoder.nominatim()
     }).addTo(map);
   
+
