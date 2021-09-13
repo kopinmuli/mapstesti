@@ -27,7 +27,6 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         //addWaypoints: false,
         draggableWaypoints: false,
         routeWhileDragging: false,
-        geocoder: L.Control.Geocoder.nominatim()
     }).addTo(map);
   
 
