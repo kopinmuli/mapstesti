@@ -11,8 +11,9 @@ L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=J85hOuGW9
             L.latLng(60.169857, 24.938379)
         ],
         show: false,
-        addWaypoints: false,
+        //addWaypoints: false,
         draggableWaypoints: false,
         routeWhileDragging: false,
+        geocoder: L.Control.Geocoder.nominatim()
     }).addTo(map);
   
