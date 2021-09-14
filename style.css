@@ -1,4 +1,21 @@
-#map{
-    height: 700px;
-    width: 700px;
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  height: 100vh;
+  justify-content: center;
+  align-content: center;
+}
+#map {
+  position: relative;
+  top: 15%;
+  left: 33%;
+  height: 700px;
+  width: 700px;
+}
+#coordinates {
+  position: relative;
+  top: 33%;
+  left: 5%;
 }

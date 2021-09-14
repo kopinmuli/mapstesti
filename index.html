@@ -6,13 +6,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="node_modules/leaflet/dist/leaflet.css">
     <link rel="stylesheet" href="node_modules/leaflet-routing-machine/dist/leaflet-routing-machine.css">
+    <link rel="stylesheet" href="node_modules/leaflet-control-geocoder/dist/Control.Geocoder.css">
+
+
 </head>
 
 <body>
+    <div id="coordinates">
+        <input type="text" id="coordinputStart" placeholder="alku">
+        <input type="text" id="coordinputDestination" placeholder="loppu">
+        <button id="addcoords" onclick="setRoute()">Lisää</button>
+        <br>
+        <input type="text" id="addwaypoint" placeholder="välietappi">
+        <button onclick="addWayPoint()">Lisää</button>
+    </div>
     <div id="map"></div>
+
+    <script src="node_modules/leaflet/dist/leaflet.js"></script>
     <script src="node_modules/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+    <script src="node_modules/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
     <script src="main.js"></script>
 </body>
 
