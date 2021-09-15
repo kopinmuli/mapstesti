@@ -22,16 +22,20 @@ var routecontrol = L.Routing.control({
 
 map.on('click', (e) => {
     coords = e.latlng
-    console.log(coords.lat, coords.lng)
+    console.log(coords)
+    var ajaxrequest = new XMLHttpRequest();
+    ajaxrequest.onload = function() {
+        var jsondata = JSON.parse(ajaxrequest.response)
+        console.log(jsondata)
+    }
+    ajaxrequest.open("GET", 'https://nominatim.openstreetmap.org/search?query={lat:' + coords.lat + ', lon:' + coords.lng + '}&format=json')
+    ajaxrequest.send()
 })
 
-map.on('doubleclick', (e) => {
-    coords = e.latlng
-    L.marker(coords, 'icon').addTo(map)
-})
 var startCoords;
 var endCoords;
 
+var startwaypoints = [];
 
 function setRoute() {
     let start = document.getElementById('coordinputStart').value
@@ -41,6 +45,7 @@ function setRoute() {
     ajaxRequeststart.onload = function() {
         startPoint = JSON.parse(ajaxRequeststart.response)
         startCoords = [startPoint[0].lat, startPoint[0].lon]
+        startwaypoints.push(startCoords)
         console.log(startCoords)
     }
     ajaxRequeststart.open("GET", 'https://nominatim.openstreetmap.org/search?city=' + start + '&format=json')
@@ -51,6 +56,7 @@ function setRoute() {
         endPoint = JSON.parse(ajaxRequestend.response)
         endCoords = [endPoint[0].lat, endPoint[0].lon]
         console.log(endCoords)
+        startwaypoints.push(endCoords)
         addroute()
     }
     ajaxRequestend.open("GET", 'https://nominatim.openstreetmap.org/search?city=' + end + '&format=json')
@@ -67,8 +73,9 @@ function addroute() {
     console.log(routecontrol.getWaypoints())
 }
 var waypointcoords;
-var startwaypoints = []
+
 var newwaypoints = []
+var test;
 
 function addWayPoint() {
     let waypoint = document.getElementById('addwaypoint').value
@@ -76,29 +83,71 @@ function addWayPoint() {
     ajaxRequestWayPoint.onload = function() {
         var waypointjson = JSON.parse(ajaxRequestWayPoint.response)
         console.log(waypointjson)
-        waypointcoords = { lat: parseFloat(waypointjson[0].lat), lng: parseFloat(waypointjson[0].lon) }
-        for (let i = 0; i < routecontrol.getWaypoints().length; i++) {
-            startwaypoints.push({ lat: routecontrol.getWaypoints()[i].latLng["lat"], lng: routecontrol.getWaypoints()[i].latLng["lng"] })
+        if (document.getElementById('searchParameter').value == 'postal') {
+            for (let i = 0; i < waypointjson.length; i++) {
+                if (waypointjson[i].display_name.includes('Suomi')) {
+                    waypointjson = waypointjson[i]
+                    break
+                }
+            }
+            waypointcoords = { lat: parseFloat(waypointjson.lat), lng: parseFloat(waypointjson.lon) }
+            newwaypoints.push([waypointcoords.lat, waypointcoords.lng])
+            newwaypoints.sort(function(a, b) {
+                if (startwaypoints[0][0] > startwaypoints[startwaypoints.length - 1][0]) {
+
+                    console.log(a, b)
+                    if (a[0] > b[0] && a[1] > b[1]) return a[0] - b[0]
+                    else return a[1] - b[1]
+                } else {
+                    console.log(a, b)
+                    if (b[0] > a[0] && b[1] > a[1]) return b[0] - a[0]
+                    return b[1] - a[1]
+                }
+
+            })
+            for (let i = 0; i < newwaypoints.length; i++) {
+                startwaypoints.splice(1, 0, newwaypoints[i])
+            }
+
+
         }
+        if (document.getElementById('searchParameter').value == 'city') {
+            waypointcoords = { lat: parseFloat(waypointjson[0].lat), lng: parseFloat(waypointjson[0].lon) }
+            newwaypoints.push([waypointcoords.lat, waypointcoords.lng])
+            newwaypoints.sort(function(a, b) {
+                if (startwaypoints[0][0] > startwaypoints[startwaypoints.length - 1][0]) {
 
-        startwaypoints.splice(startwaypoints.length / 2, 0, waypointcoords)
+                    console.log(a, b)
+                    if (a[0] > b[0] && a[1] > b[1]) return a[0] - b[0]
+                    else return a[1] - b[1]
+                } else {
+                    console.log(a, b)
+                    if (b[0] > a[0] && b[1] > a[1]) return b[0] - a[0]
+                    return b[1] - a[1]
+                }
 
-        console.log(startwaypoints)
-        startwaypoints.sort(function(firstEl, lastEl) {
-            firstEl = startwaypoints[0]
-            lastEl = startwaypoints[startwaypoints.length - 1]
-            if (firstEl.lat > lastEl.lat) {
-                return firstEl.lat - lastEl.lat
+            })
+            for (let i = 0; i < newwaypoints.length; i++) {
+                startwaypoints.splice(1, 0, newwaypoints[i])
             }
-            if (firstEl.lat < lastEl.lat) {
-                return lastEl.lat - firstEl.lat
-            }
-        });
+
+
+        }
+        if (document.getElementById('searchParameter').value == 'street') {
+
+        }
         routecontrol.setWaypoints(startwaypoints)
-        startwaypoints = []
 
+        startwaypoints = [startCoords, endCoords]
 
     }
-    ajaxRequestWayPoint.open('GET', 'https://nominatim.openstreetmap.org/search?city=' + waypoint + '&format=json')
+    if (document.getElementById('searchParameter').value == 'city') {
+        ajaxRequestWayPoint.open('GET', 'https://nominatim.openstreetmap.org/search?city=' + waypoint + '&format=json')
+    } else if (document.getElementById('searchParameter').value == 'postal') {
+        ajaxRequestWayPoint.open('GET', 'https://nominatim.openstreetmap.org/search?postalcode=' + waypoint + '&format=json')
+    } else {
+        ajaxRequestWayPoint.open('GET', 'https://nominatim.openstreetmap.org/search?street=' + waypoint + '&format=json')
+
+    }
     ajaxRequestWayPoint.send()
 }

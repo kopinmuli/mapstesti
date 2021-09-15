@@ -21,6 +21,11 @@
         <button id="addcoords" onclick="setRoute()">Lisää</button>
         <br>
         <input type="text" id="addwaypoint" placeholder="välietappi">
+        <select name="findBy" id="searchParameter">
+            <option value="city">Kaupunki</option>
+            <option value="postal">Postinumero</option>
+            <option value="streetname">Katu</option>
+        </select>
         <button onclick="addWayPoint()">Lisää</button>
     </div>
     <div id="map"></div>
