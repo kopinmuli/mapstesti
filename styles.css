@@ -1,8 +1,12 @@
 #mapid { 
-    height: 500px; 
-    width:500px;
+    height: 400px; 
+    width:100%;
 }
-
-/*.leaflet-right {
+#ylapalkki {
+    height:150px;
+    width:100%;
+    background-color: bisque;
+}
+.leaflet-right {
     display: none;
 }
