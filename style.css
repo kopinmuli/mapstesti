@@ -10,12 +10,12 @@ body {
 #map {
   position: relative;
   top: 15%;
-  left: 33%;
-  height: 700px;
-  width: 700px;
+  left: 0;
+  height: 500px;
+  width: 100%;
 }
 #coordinates {
   position: relative;
-  top: 33%;
+  top: 13%;
   left: 5%;
 }

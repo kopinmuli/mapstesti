@@ -18,7 +18,7 @@
     <div id="coordinates">
         <input type="text" id="coordinputStart" placeholder="alku">
         <input type="text" id="coordinputDestination" placeholder="loppu">
-        <button id="addcoords" onclick="setRoute()">Lisää</button>
+        <button id="addcoords" onclick="requestNominatimData(document.getElementById('coordinputStart').value, document.getElementById('coordinputDestination').value)">Lisää</button>
         <br>
         <input type="text" id="addwaypoint" placeholder="välietappi">
         <select name="findBy" id="searchParameter">
